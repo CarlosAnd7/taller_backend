@@ -27,7 +27,7 @@ public class ClienteServiceImp implements IntClienteService{
             response.getClientResponse().setCliente(clientes);
             response.setMetadata("Respuesta ok", "00", "Respuesta Exitosa");
         }catch (Exception e){
-            response.setMetadata("Sin respuesta", "-1", "Error a consultar");
+            response.setMetadata("Sin respuesta", "-1", "Error al consultar");
             e.getStackTrace();
             return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -51,7 +51,30 @@ public class ClienteServiceImp implements IntClienteService{
                 return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.NOT_FOUND);
             }
         }catch (Exception e){
-            response.setMetadata("Sin respuesta", "-1", "Error a consultar por ID");
+            response.setMetadata("Sin respuesta", "-1", "Error al consultar por ID");
+            e.getStackTrace();
+            return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.OK);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<ClienteResponseRest> save(Cliente cliente) {
+        ClienteResponseRest response = new ClienteResponseRest();
+        List<Cliente> list = new ArrayList<>();
+        try {
+            Cliente clienteSaved = clienteDAO.save(cliente);
+            if(clienteSaved != null){
+                list.add(clienteSaved);
+                response.getClientResponse().setCliente(list);
+                response.setMetadata("Respuesta OK", "00", "Cliente guardado exitosamente");
+            } else {
+                response.setMetadata("Sin respuesta", "-1", "Cliente no guardado");
+                return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            response.setMetadata("Sin respuesta", "-1", "Error al guardar cliente");
             e.getStackTrace();
             return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
