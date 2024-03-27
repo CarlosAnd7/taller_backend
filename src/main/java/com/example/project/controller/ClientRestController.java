@@ -5,6 +5,7 @@ import com.example.project.services.IntClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,13 @@ public class ClientRestController {
     public ResponseEntity<ClienteResponseRest> searchClientes(){
 
         ResponseEntity<ClienteResponseRest> response = service.search();
+        return response;
+    }
+
+    @GetMapping("/clientes/{ID}")
+    public ResponseEntity<ClienteResponseRest> searchClientesID(@PathVariable Long ID){
+
+        ResponseEntity<ClienteResponseRest> response = service.searchByID(ID);
         return response;
     }
 }

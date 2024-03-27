@@ -5,5 +5,6 @@ import com.example.project.response.ClienteResponseRest;
 
 public interface IntClienteService {
     public ResponseEntity<ClienteResponseRest> search();
+    public ResponseEntity<ClienteResponseRest> searchByID(Long ID);
 
 }
