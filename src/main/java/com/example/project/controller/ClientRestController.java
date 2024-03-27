@@ -40,4 +40,10 @@ public class ClientRestController {
         ResponseEntity<ClienteResponseRest> response = service.update(cliente, ID);
         return response;
     }
+
+    @DeleteMapping("/clientes/{ID}")
+    public ResponseEntity<ClienteResponseRest> delete(@PathVariable Long ID){
+        ResponseEntity<ClienteResponseRest> response = service.deleteByID(ID);
+        return response;
+    }
 }

@@ -114,4 +114,21 @@ public class ClienteServiceImp implements IntClienteService{
         }
         return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.OK);
     }
+
+    @Override
+    @Transactional
+    public ResponseEntity<ClienteResponseRest> deleteByID(Long ID) {
+        ClienteResponseRest response = new ClienteResponseRest();
+        List<Cliente> list = new ArrayList<>();
+        try {
+            clienteDAO.deleteById(ID);
+            response.setMetadata("Respuesta ok", "00", "Registro eliminado exitosamente");
+
+        }catch (Exception e){
+            response.setMetadata("Sin respuesta", "-1", "Error al eliminar por ID");
+            e.getStackTrace();
+            return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.OK);
+    }
 }

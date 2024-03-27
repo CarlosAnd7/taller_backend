@@ -12,4 +12,6 @@ public interface IntClienteService {
 
     public ResponseEntity<ClienteResponseRest>update(Cliente cliente, Long ID);
 
+    public ResponseEntity<ClienteResponseRest>deleteByID(Long ID);
+
 }
