@@ -10,4 +10,6 @@ public interface IntClienteService {
 
     public ResponseEntity<ClienteResponseRest>save(Cliente cliente);
 
+    public ResponseEntity<ClienteResponseRest>update(Cliente cliente, Long ID);
+
 }

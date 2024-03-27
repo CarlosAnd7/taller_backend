@@ -80,4 +80,38 @@ public class ClienteServiceImp implements IntClienteService{
         }
         return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.OK);
     }
+
+    @Override
+    @Transactional
+    public ResponseEntity<ClienteResponseRest> update(Cliente cliente, Long ID) {
+        ClienteResponseRest response = new ClienteResponseRest();
+        List<Cliente> list = new ArrayList<>();
+        try {
+            Optional<Cliente> clienteBuscado = clienteDAO.findById(ID);
+            if(clienteBuscado.isPresent()) {
+                clienteBuscado.get().setNombre(cliente.getNombre());
+                clienteBuscado.get().setEdad(cliente.getEdad());
+
+                Cliente clienteToUpd = clienteDAO.save(clienteBuscado.get());
+
+                    if(clienteToUpd !=null){
+                        list.add(clienteToUpd);
+                        response.getClientResponse().setCliente(list);
+                        response.setMetadata("Respuesta OK", "00", "Cliente actualizado exitosamente");
+                    }else {
+                        response.setMetadata("Sin respuesta", "-1", "Cliente no actualizado");
+                        return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.BAD_REQUEST);
+
+                    }
+                }else {
+                response.setMetadata("Sin respuesta", "-1", "Cliente no encontrado");
+                return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            response.setMetadata("Sin respuesta", "-1", "Error al actualizar cliente");
+            e.getStackTrace();
+            return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<ClienteResponseRest>(response, HttpStatus.OK);
+    }
 }

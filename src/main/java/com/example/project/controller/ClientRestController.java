@@ -33,4 +33,11 @@ public class ClientRestController {
         ResponseEntity<ClienteResponseRest> response = service.save(cliente);
         return response;
     }
+
+    @PutMapping("/clientes/{ID}")
+    public ResponseEntity<ClienteResponseRest> update(@RequestBody Cliente cliente, @PathVariable Long ID){
+
+        ResponseEntity<ClienteResponseRest> response = service.update(cliente, ID);
+        return response;
+    }
 }
